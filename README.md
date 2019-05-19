@@ -1,3 +1,7 @@
+# CS50
+
+## Working through CS50
+I used the CS50 IDE, whereby its features are a file browser, text editor, and, most importantly, terminal window, which provides students with command-line access to an underlying container running Ubuntu, a distribution of Linux. 
 
 # CS50 2018 Sylabus:
 This course teaches you how to think algorithmically and solve problems efficiently. Topics include abstraction, algorithms, data structures, encapsulation, resource management, security, software engineering, and web development. Languages include C, Python, SQL, and JavaScript plus CSS and HTML. Problem sets inspired by real-world domains of biology, cryptography, finance, forensics, and gaming. Designed for concentrators and non-concentrators alike, with or without prior programming experience. 68% of CS50 students have never taken CS before.
