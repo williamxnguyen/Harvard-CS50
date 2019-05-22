@@ -40,4 +40,60 @@ I can choose to think of this as either a 10x10 grid of cells.
         - In memory, it's really just a 100-element one-dimensional array.
         - Multi-dimensional arrays are great abstractions to help visualize game boards or other complex representations.
         
- 
+While, I can treat individual elements of arrays as variales, I cannot treat entire arrays themselves as variables.
+
+For example, assign one array to another using the assignment operator. That's not legal C. 
+
+Instead, I must use a for loop to copy over the elements one at a time. 
+
+```c
+int foo[5] = {1,2,3,4,5};
+int bar[5];
+
+//copying contents inside foo into bar
+for (int j =0;j<5;j++)
+{
+    bar[j] = foo[j];
+}
+```
+## Passed by Reference 
+- Recall that most variables in C are **passed by value** in function calls. 
+- Arrays do not follow this rule. Rather, they are **passed by reference**. The callee receives the actual array, _not_ a copy of it. 
+
+- Sample array code:
+```c
+/*
+Outputs: 10,22 (a,b[0]) -- due to passing arrays by reference and passing variables by values. 
+*/
+
+void set_array(int array[4]); //function declarations - takes array of 4 integer inputs -- no output (void)
+void set_int(int x); //set_int takes a single integer as its input -- no output (void)
+
+int main(void)
+{
+    int a = 10;
+    int b[4] = {0,1,2,3};
+    set_int(a); // call
+    set_array(b); // call
+    
+    printf("%d %d\n",a,b[0]);
+}
+
+void set_array(int array[4])
+{
+    array[0] = 22;
+}
+void set_int(int x)
+{
+    x = 22;
+}
+
+```
+
+
+
+
+
+
+
+
