@@ -22,6 +22,16 @@ ciphertext: uryyb, jbeyq
 
 **NOTE:** Neither the comma nor the space were "shifted" by the cipher, only the alphabetical characters were rotated. 
 
+## Pseudocode
+1. Check that program was run with one command-line argument
+2. Iterate over the provided argument to make sure all characters are digits
+3. Convert that command-line argument from a string to an int
+4. Prompt user for plaintext
+5. Iterate over each character of the plaintext:
+    - If it is an uppercase letter, rotate it, preserving case, then print out the rotated character
+    - If it is a lowercase letter, rotate it, preserving case, then print out the rotated character
+    - If it is neither, print out the character as is
+6. Print a newline
 
 ## Problem Context
 
