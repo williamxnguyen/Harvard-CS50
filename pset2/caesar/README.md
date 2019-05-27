@@ -59,3 +59,54 @@ This formula makes the cipher seem more complicated than it is, but it's really 
 - Plaintext, _p_, is Hi in which case my plaintext's first character, p0, is H (_aka._ 7) and my plaintext's second character, p1, is I (_aka._ 8). 
 - Then, ciphertext's first character. c0, is thus K, and ciphertext's second character, c1, is thus L. 
 
+## Extra Notes on Individual Research
+**If I want to pass information to a program to run from a command line, I should specify formal parameters _argc_ and _argv[]_ in main() function. 
+
+The name of the variable _argc_ stands for "argument count" and is set at run time to the number of arguments passed to the program on command line. 
+
+The name of the variable _argv[]_ stands for "argument vector" and this vector is a one-dimensional array of strings (for example) -- each string is one of the command line arguments passed to the program. 
+
+
+**The command line arguments are handled using main() function arguments where argc refers to the number of arguments passed, and argv[] is a pointer array which points to each argument passed to the program. Following is a simple example which checks if there is any argument supplied from the command line and take action accordingly −**
+```c
+#include <stdio.h>
+ 
+int main( int argc, char *argv[] )  {
+ 
+   if( argc == 2 ) {
+      printf("The argument supplied is %s\n", argv[1]); //input: ./caesar 22 --> outputs: Argument supplied is 22.
+   }
+   else if( argc > 2 ) {
+      printf("Too many arguments supplied.\n");
+   }
+   else {
+      printf("One argument expected.\n");
+   }
+}
+```
+**NOTE:** **_argv[0]_** holds the name of the program itself and **_argv[1]_** is a pointer to the first command line argument supplied.
+
+Furthermore, the below program demonstrates how argc and argv is used.
+```c
+int main(int argc, string argv[]) //argv[] is a pointer array which points to each argument passed in command line
+    //argc refers to number of arguments passed
+    
+    //Arguments to the program takes input key and plaintext.
+    //Type in command-line arguments where a string array is stored with argv[]
+{
+    printf("Number of arguments supplied: %d. \n",argc);
+    for (int i=0; i<argc; i++)
+    {
+        printf("%s\n",argv[i]);
+    }
+    return 0;
+}
+
+Input: ./caesar 22 hello brother
+Output: 
+Number of arguments supplied: 4
+    ./caesar
+    22
+    hello
+    brother
+```

@@ -26,48 +26,72 @@ Pseudocode:
 
 
 */
-        
-    int k = atoi(argv[1]) % 26;
-    string s = GetString();
-    int len = strlen(s);
-    
-    for(int i = 0; i < len; i++)
-        if(isalpha(s[i])) {
-            int tmp = (int) s[i] + k;
-            
-            if(isupper(s[i])) {
-                if(tmp > 65 + 25)
-                    tmp -= 26;
-            } else {
-                if(tmp > 97 + 25)
-                    tmp -= 26;
-            }
 
-
-
-
-
-int main(int argc, string argv[]) 
+int main(int argc, string argv[]) //argv[] is a pointer array which points to each argument passed in command line
+{
+    //argc refers to number of arguments passed
     //Arguments to the program takes input key and plaintext.
     //Type in command-line arguments where a string array is stored with argv[]
-    //
-{
-    if (argc != 2) //If user does not provide exactly 2 arguments which I want the user to cooperate -- return 0
+    if (argc != 2) //Checking that program was run with one command line argument (argc=2)
     {
-        //counting command line
-        printf("Usage: ./caesar key"); 
-        return 1; //Program returning error 
+        printf("Usage: ./caesar key \n"); //User did not input exactly one command line from command line at runtime. 
+        return 1; //Program returning error (return from main value 1 to signify error immediately). 
     }
-    else {
-        prinf("Success!");
-        return 0;
+    else 
+    {
+        printf("Successful number of inputs added!\n");
     }
     
-    if (!isdigit(argv[1]))
+    /*Now I want to iterate over provided argument to make sure all characters are digits because this is a key. 
+     * And a key is a positive integer. 
+     */
+
+    
+    int len = strlen(argv[1]); //determining length of argument passed through command line
+    //Since I know the length I can loop to iterate over each character of a string (argv[1]) to validate the key
+    
+    for (int i=0; i < len; i++) //looping through each string character of passed argument
     {
-        // I want to make sure the second argument (key) is a number.
-        // If the second argument is NOT a digit, return 1 (program error) 
-        printf("Usage: ./caesar key"); 
-        return 1; 
+        if (!isdigit(argv[1][i])) //determining whether each it is a digit
+            //isdigit() takes single integer argument and returns value of type int
+            //even though isdigit() takes integer as an argument, character is passed to function and internally, character is converted to ASCII value for check/ 
+            
+            // I want to ensure second argument (key is a number). 
+            {
+                printf("Usage: ./caesar key\n");
+                return 1; //return 1 (program error) if one of the loop is not a digit. 
+            }
+    }   
+    //1. If above string consists soley of digit characters -- I will convert STRING (argv[1]) to an ACTUAL NUMBER (argv is an array of strings, even if those strings happen to look like numbers)
+    //2. Prit out the integer using placeholder -- however argv is an array of string so use **atoi function** to convert string that looks like a number into that number
+    
+    //Important Note: atoi function converts str into an integer.
+    int k = atoi(argv[1])%26; //Converting argv[1] (string, even if it is a string-number) into an integer
+    //I did %26 (remainder when dividing by 26) to make sure the key-rotational value is within len(alphabet)
+    //E.g. k = 3%26 or 0%26 or 25%26 or 26%26 is respectively (3,0,25,0)
+    //Explaining why I did further %26 -- Think a as 0, b as 1, ... and z as 25. I want to use a key of 3, so I rotate my plaintext and add by 3.
+    printf("Successful key validation: \n%i\n",k);
+    
+    
+    //ENCRYPTION 
+    string s = get_string("plaintext: "); //Prompt user for secret message to shift all of its characters by k
+    int length = strlen(s);
+    printf("ciphertext: ");
+    for (int i = 0; i < length; i++)
+    {
+        if (isalpha(s[i])) //I want to ensure encryption ignores spaces and punctuation so it isn't "shifted by cipher"
+        //isalpha() checks whether character s[i] (type char) is an alphabet (a-z, A-Z) or not
+        //if !isalpha(), it returns 0.
+        //Even though, isalpha() takes integer argument --> character is passed through and converted into ASCII integer value 
+        {
+            printf("%c",(s[i]+k)); //Iterating over each character in plaintext and shift characters by certain k value            
+        }
+        else
+        //I want to shift ONLY letters and nothing else (e.g. punctuation, space etc.)  
+        {
+            printf("%c",s[i]);
+        }
     }
+    printf("\n");
 }
+ 
