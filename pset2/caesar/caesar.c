@@ -96,6 +96,7 @@ int main(int argc, string argv[]) //argv[] is a pointer array which points to ea
             
             if (isupper(text[i])) //if alphabetical letter is upper
             {
+                
                 if (tmp > 65 + 25) 
                     //ensures that ASCII value of cipher text (plaintext rotated by k) is not more than ASCII VALUE = 90 
                     //since it would become punctuation or lowercase letters when (int) tmp is converted back to (char) tmp
@@ -109,14 +110,14 @@ int main(int argc, string argv[]) //argv[] is a pointer array which points to ea
                     //This is not what I want. 
                     //Thus, I have to -26 so make a loop back, thus my ASCII encrypted value would be 65 (A)
                 }
-                else
+            }
+            else
+            {
+                if (tmp > 97 + 25)
                 {
-                    if (tmp > 97 + 25)
-                    {
-                        tmp -= 26;
-                    }
+                    tmp -= 26;
                 }
-                
+            }
             //printf("%c",(text[i]+k)); OR
             printf("%c", (char) tmp); //cipher text            
         }
@@ -128,6 +129,6 @@ int main(int argc, string argv[]) //argv[] is a pointer array which points to ea
         }
     }
     printf("\n");
-    return 0; //exit main program for successful run
+    //return 0; //exit main program for successful run
 }
-} 
+ 
