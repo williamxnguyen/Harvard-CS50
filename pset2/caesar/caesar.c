@@ -97,6 +97,7 @@ int main(int argc, string argv[]) //argv[] is a pointer array which points to ea
             
             if (islower(text[i])) 
             {
+
                 if (tmp > 97 + 25) 
                     //ensures that ASCII value of cipher text (plaintext rotated by k) is not more than ASCII VALUE = 65 + 25
                     //what if lower-case alphabetical plain text was x,y,z but now encrypted ascii is > 65+25
