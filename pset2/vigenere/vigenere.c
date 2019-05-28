@@ -22,27 +22,45 @@ int shift(char c); //declaring prototype
 
 int main(int argc, string argv[])
 {
+    
     if (argc != 2)
     {
         printf("Usage: %s keyword\n",argv[0]);
-        return 1;
+        return 1; //return error if command-line arguments !=2
     }
-    else
+    /*else
     {
         int key = shift(argv[1][0]); //argv[1][0] is the first character of that string
         printf("%i\n",key)
-    }
+    }*/
     
-    int len = strlen(argv[1]); //Using a loop to iterate over each character of a string if I know its length
-    for (int i = 0; i < len; i++)
+    //Using a loop to iterate over each character of a string if I know its length
+    int key_len = strlen(argv[1]); 
+    for (int i = 0; i < key_len; i++)
     {
+        argv[1][i] = tolower(argv[1][i]); //making keyword lowercase to work with easier since shift A/a = 0; Z/z = 25
+   
         //iterating through each character to ensure keyword is alphabetical
         if (!isalpha(argv[1][i]))
         {
             printf("Usage: %s keyword\n",argv[0]);
-            return 1;
+            return 1; //return error if characters aren't alphabetical
         }
     }
+    
+    string plaintext = get_string("plaintext: ");
+    int plaintext_length = strlen(plaintext); 
+    //Iterate through plaintext characters "hello" plaintext[i] and encrypt plaintext[j] with key_values keyword[m]
+    //Plaintext characters "Hello World!" -- keyword is lowercase characters --> need to set keyword to alphabetical index (a = 0 to z = 25)
+    //Convert plaintext to ASCII (handling upper and lowercase) and shift by keyword[m] values
+    //Convert encrypted message in ASCHII back to char when printing 
+    
+    for (int i = 0, j = 0; i < plaintext_length && j < key_len; i++)
+    {
+        printf("%i",i);
+    }
+    
+/*    
 }
 
 int shift(char c) 
@@ -50,23 +68,68 @@ int shift(char c)
     //TODO: Convert character to positional integer value (A/a = 0, Z/z = 25)
     //The ASCII value of A is 65. The ASCII value of a is 97.
     //The ASCII value of B is 66. The ASCII value of b is 98. See a potential pattern emerging?
+    //ci = (pi + kj) % 26
+
     
     
 }
 
+    for (int j = 0, m = 0; j < plainlen && m <= keylen; j++)
+    {
+        if (isalpha(plain[j]))
+        {
+            // Sets index for keyword m to 0, starts encryption back at beginning of keyword
+            if (m == keylen)
+            {
+                m = 0;
+            }
+            if (isupper(plain[j]))
+            {
+                if (isupper(k[m]))
+                {
+                    x = plain[j] - 'A';
+                    y = (k[m] - 'A');
+                    z = (x + y) % 26;
+                    printf("%c", z + 'A');
+                    m++;
+                }
+                else
+                {
+                    x = plain[j] - 'A';
+                    y = (k[m] - 'a');
+                    z = (x + y) % 26;
+                    printf("%c", z + 'A');
+                    m++;
+                }
 
+            }
+            else
+            {
+                if (isupper(k[m]))
+                {
+                    x = plain[j] - 'a';
+                    y = (k[m] - 'A');
+                    z = (x + y) % 26;
+                    printf("%c", z + 'a');
+                    m++;
+                }
+                else
+                {
+                    x = plain[j] - 'a';
+                    y = (k[m] - 'a');
+                    z = (x + y) % 26;
+                    printf("%c", z + 'a');
+                    m++;
+                }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            }
+        }
+        else
+        {
+            printf("%c", plain[j]);
+        }
+    }
+    printf("\n");
+    return 0;
+}
+*/
