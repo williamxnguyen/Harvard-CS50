@@ -36,7 +36,8 @@ int main(int argc, string argv[])
     
     //Using a loop to iterate over each character of a string if I know its length
     string keyword = argv[1];
-    int key_len = strlen(argv[1]);
+    int key_len = strlen(keyword);
+    
     string plaintext = get_string("plaintext: ");
     int plaintext_length = strlen(plaintext); 
     
@@ -59,15 +60,11 @@ int main(int argc, string argv[])
     
     
     printf("ciphertext: ");
-    for (int i = 0; i < plaintext_length; i++)
+    for (int i = 0, j = 0; i < plaintext_length; i++)
     {
-        int tmp = (int) plaintext[i]; //ASCII character value
-        
-        for (int j = 0; j < key_len; j++)
-        {
-            int k = (int) keyword[j] % 97; //Turning keyword (for e.g. KEY) into lower and into alphabetical index
-            tmp += k; //Shifting plaintext ASCII value by k
-            
+        int tmp = (int) plaintext[i] + ((int) keyword[j] % 97); //alphabetical index; 
+        //ASCII character value shifted by k[j]%97
+
             if (isalpha(plaintext[i]))
             {
                 //If-else condition above ensures ASCII value in correct range after tmp is shifted by keyword[j]
@@ -99,75 +96,33 @@ int main(int argc, string argv[])
 
 
 
-/*    
-}
-int shift(char c) 
-{
-    //TODO: Convert character to positional integer value (A/a = 0, Z/z = 25)
-    //The ASCII value of A is 65. The ASCII value of a is 97.
-    //The ASCII value of B is 66. The ASCII value of b is 98. See a potential pattern emerging?
-    //ci = (pi + kj) % 26
 
+
+    string s = GetString(), k = argv[1];
+    int plain_len = strlen(s), key_len = strlen(argv[1]);
     
-    
-}
-
-    for (int j = 0, m = 0; j < plainlen && m <= keylen; j++)
-    {
-        if (isalpha(plain[j]))
-        {
-            // Sets index for keyword m to 0, starts encryption back at beginning of keyword
-            if (m == keylen)
-            {
-                m = 0;
+    for(int i = 0, j = 0; i < plain_len; i++)
+        if(isalpha(s[i])) {
+            if(j == key_len)
+                j = 0;
+            
+            int tmp = (int) s[i] + ((int) k[j] % 97);
+            
+            if(isupper(s[i])) {
+                if(tmp > 65 + 25)
+                    tmp -= 26;
+            } else {
+                if(tmp > 97 + 25)
+                    tmp -= 26;
             }
-            if (isupper(plain[j]))
-            {
-                if (isupper(k[m]))
-                {
-                    x = plain[j] - 'A';
-                    y = (k[m] - 'A');
-                    z = (x + y) % 26;
-                    printf("%c", z + 'A');
-                    m++;
-                }
-                else
-                {
-                    x = plain[j] - 'A';
-                    y = (k[m] - 'a');
-                    z = (x + y) % 26;
-                    printf("%c", z + 'A');
-                    m++;
-                }
-
-            }
-            else
-            {
-                if (isupper(k[m]))
-                {
-                    x = plain[j] - 'a';
-                    y = (k[m] - 'A');
-                    z = (x + y) % 26;
-                    printf("%c", z + 'a');
-                    m++;
-                }
-                else
-                {
-                    x = plain[j] - 'a';
-                    y = (k[m] - 'a');
-                    z = (x + y) % 26;
-                    printf("%c", z + 'a');
-                    m++;
-                }
-
-            }
-        }
-        else
-        {
-            printf("%c", plain[j]);
-        }
-    }
+            
+            printf("%c", (char) tmp);
+            j++;
+        } else
+            printf("%c", s[i]);
+        
     printf("\n");
+    
     return 0;
-}
+
 */
