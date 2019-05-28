@@ -35,31 +35,59 @@ int main(int argc, string argv[])
     }*/
     
     //Using a loop to iterate over each character of a string if I know its length
-    int key_len = strlen(argv[1]); 
+    string keyword = argv[1];
+    int key_len = strlen(argv[1]);
+    string plaintext = get_string("plaintext: ");
+    int plaintext_length = strlen(plaintext); 
+    
     for (int i = 0; i < key_len; i++)
     {
-        argv[1][i] = tolower(argv[1][i]); //making keyword lowercase to work with easier since shift A/a = 0; Z/z = 25
-   
+        keyword[i] = tolower(keyword[i]); //making keyword lowercase to work with easier since shift A/a = 0; Z/z = 25
         //iterating through each character to ensure keyword is alphabetical
-        if (!isalpha(argv[1][i]))
+        if (!isalpha(keyword[i]))
         {
             printf("Usage: %s keyword\n",argv[0]);
             return 1; //return error if characters aren't alphabetical
         }
     }
     
-    string plaintext = get_string("plaintext: ");
-    int plaintext_length = strlen(plaintext); 
+
     //Iterate through plaintext characters "hello" plaintext[i] and encrypt plaintext[j] with key_values keyword[m]
     //Plaintext characters "Hello World!" -- keyword is lowercase characters --> need to set keyword to alphabetical index (a = 0 to z = 25)
     //Convert plaintext to ASCII (handling upper and lowercase) and shift by keyword[m] values
     //Convert encrypted message in ASCHII back to char when printing 
-    
-    for (int i = 0, j = 0; i < plaintext_length && j < key_len; i++)
+    printf("ciphertext: ");
+    for (int i = 0; i < plaintext_length; i++)
     {
-        printf("%i",i);
+        int tmp = (int) plaintext[i]; //ASCII character value
+        for (int j = 0; j < key_len; j++)
+        {
+            int k = (int) keyword[j] % 97; //Turning keyword (for e.g. KEY) into lower and into alphabetical index
+            tmp += k; //Shifting plaintext ASCII value by k
+                if (isalpha(plaintext[i]))
+                {
+                    if (islower(plaintext[i]))
+                    {
+                        if (tmp > 97 + 25)
+                        tmp -= 26;
+                    }
+                    else
+                    {
+                        if (tmp > 65 + 25 )
+                        tmp -= 26;
+                    }
+                }
+                printf("%c", (char) tmp);
+                else
+                {
+                    printf("%c", plaintext[i])
+                }
+        }
+        printf("\n");
     }
-    
+}
+
+
 /*    
 }
 
