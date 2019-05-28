@@ -56,16 +56,21 @@ int main(int argc, string argv[])
     //Plaintext characters "Hello World!" -- keyword is lowercase characters --> need to set keyword to alphabetical index (a = 0 to z = 25)
     //Convert plaintext to ASCII (handling upper and lowercase) and shift by keyword[m] values
     //Convert encrypted message in ASCHII back to char when printing 
+    
+    
     printf("ciphertext: ");
     for (int i = 0; i < plaintext_length; i++)
     {
         int tmp = (int) plaintext[i]; //ASCII character value
+        
         for (int j = 0; j < key_len; j++)
         {
             int k = (int) keyword[j] % 97; //Turning keyword (for e.g. KEY) into lower and into alphabetical index
             tmp += k; //Shifting plaintext ASCII value by k
+            
             if (isalpha(plaintext[i]))
             {
+                //If-else condition above ensures ASCII value in correct range after tmp is shifted by keyword[j]
                 if (islower(plaintext[i]))
                 {
                     if (tmp > 97 + 25)
@@ -80,6 +85,7 @@ int main(int argc, string argv[])
                         tmp -= 26;
                     }
                 }
+                
                 printf("%c", (char) tmp);
             }
             else
