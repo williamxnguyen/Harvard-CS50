@@ -64,33 +64,37 @@ int main(int argc, string argv[])
         {
             int k = (int) keyword[j] % 97; //Turning keyword (for e.g. KEY) into lower and into alphabetical index
             tmp += k; //Shifting plaintext ASCII value by k
-                if (isalpha(plaintext[i]))
+            if (isalpha(plaintext[i]))
+            {
+                if (islower(plaintext[i]))
                 {
-                    if (islower(plaintext[i]))
+                    if (tmp > 97 + 25)
                     {
-                        if (tmp > 97 + 25)
                         tmp -= 26;
                     }
-                    else
+                }
+                else
+                {
+                    if (tmp > 65 + 25)
                     {
-                        if (tmp > 65 + 25 )
                         tmp -= 26;
                     }
                 }
                 printf("%c", (char) tmp);
-                else
-                {
-                    printf("%c", plaintext[i])
-                }
-        }
+            }
+            else
+            {
+                printf("%c", plaintext[i]);
+            }
+            }
         printf("\n");
     }
 }
 
 
+
 /*    
 }
-
 int shift(char c) 
 {
     //TODO: Convert character to positional integer value (A/a = 0, Z/z = 25)
