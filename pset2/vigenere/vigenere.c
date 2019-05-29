@@ -18,7 +18,6 @@ One difference between Caesar’s and Vigenère’s ciphers is that the key for 
 
 //User provided single character keywords -- convert that character into the correct shift value
 //Input single character and output integer shift value for that character
-int shift(char c); //declaring prototype
 
 int main(int argc, string argv[])
 {
@@ -33,13 +32,9 @@ int main(int argc, string argv[])
         int key = shift(argv[1][0]); //argv[1][0] is the first character of that string
         printf("%i\n",key)
     }*/
-    
     //Using a loop to iterate over each character of a string if I know its length
     string keyword = argv[1];
     int key_len = strlen(keyword);
-    
-    string plaintext = get_string("plaintext: ");
-    int plaintext_length = strlen(plaintext); 
     
     for (int i = 0; i < key_len; i++)
     {
@@ -52,6 +47,8 @@ int main(int argc, string argv[])
         }
     }
     
+    string plaintext = get_string("plaintext: ");
+    int plaintext_length = strlen(plaintext); 
 
     //Iterate through plaintext characters "hello" plaintext[i] and encrypt plaintext[j] with key_values keyword[m]
     //Plaintext characters "Hello World!" -- keyword is lowercase characters --> need to set keyword to alphabetical index (a = 0 to z = 25)
@@ -97,6 +94,12 @@ int main(int argc, string argv[])
     printf("\n");
     return 0;
 }
+
+    
+
+    
+
+    
 
 
 
