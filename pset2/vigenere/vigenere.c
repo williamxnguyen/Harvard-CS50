@@ -58,71 +58,45 @@ int main(int argc, string argv[])
     //Convert plaintext to ASCII (handling upper and lowercase) and shift by keyword[m] values
     //Convert encrypted message in ASCHII back to char when printing 
     
-    
     printf("ciphertext: ");
     for (int i = 0, j = 0; i < plaintext_length; i++)
     {
-        int tmp = (int) plaintext[i] + ((int) keyword[j] % 97); //alphabetical index; 
+        int tmp = (int) plaintext[i] + ((int) keyword[j] % 97); //alphabetical index;
         //ASCII character value shifted by k[j]%97
+        
+        if (j == key_len)
+        {
+            j = 0;
+        }
 
-            if (isalpha(plaintext[i]))
+        if (isalpha(plaintext[i]))
+        {
+            //If-else condition above ensures ASCII value in correct range after tmp is shifted by keyword[j]
+            if (islower(plaintext[i]))
             {
-                //If-else condition above ensures ASCII value in correct range after tmp is shifted by keyword[j]
-                if (islower(plaintext[i]))
+                if (tmp > 97 + 25)
                 {
-                    if (tmp > 97 + 25)
-                    {
-                        tmp -= 26;
-                    }
+                    tmp -= 26;
                 }
-                else
-                {
-                    if (tmp > 65 + 25)
-                    {
-                        tmp -= 26;
-                    }
-                }
-                
-                printf("%c", (char) tmp);
             }
             else
             {
-                printf("%c", plaintext[i]);
+                if (tmp > 65 + 25)
+                {
+                    tmp -= 26;
+                }
             }
-            }
-        printf("\n");
+            printf("%c", (char) tmp);
+            j++;
+        }
+        else
+        {
+            printf("%c", plaintext[i]);
+        }
     }
+    printf("\n");
+    return 0;
 }
 
 
 
-
-
-    string s = GetString(), k = argv[1];
-    int plain_len = strlen(s), key_len = strlen(argv[1]);
-    
-    for(int i = 0, j = 0; i < plain_len; i++)
-        if(isalpha(s[i])) {
-            if(j == key_len)
-                j = 0;
-            
-            int tmp = (int) s[i] + ((int) k[j] % 97);
-            
-            if(isupper(s[i])) {
-                if(tmp > 65 + 25)
-                    tmp -= 26;
-            } else {
-                if(tmp > 97 + 25)
-                    tmp -= 26;
-            }
-            
-            printf("%c", (char) tmp);
-            j++;
-        } else
-            printf("%c", s[i]);
-        
-    printf("\n");
-    
-    return 0;
-
-*/
