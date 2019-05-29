@@ -18,6 +18,10 @@ One difference between Caesar’s and Vigenère’s ciphers is that the key for 
 //User provided single character keywords -- convert that character into the correct shift value
 //Input single character and output integer shift value for that character
 
+/*
+ Program: Encrypts a plaintext message with a command-line keyword and the letters of the plaintext are encrypted (shifted by value) of sequence of keys in keyword, A/a = 0... Z/z = 25 shifts.
+*/
+
 bool is_valid_keyword(string keyword);
 
 int main(int argc, string argv[])
