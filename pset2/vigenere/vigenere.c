@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h> 
-
 /*
 Writing a program called `vigenere` that enables you to encrypt messages using Vigenère’s cipher. 
 
@@ -19,42 +18,37 @@ One difference between Caesar’s and Vigenère’s ciphers is that the key for 
 //User provided single character keywords -- convert that character into the correct shift value
 //Input single character and output integer shift value for that character
 
+bool is_valid_keyword(string keyword);
+
 int main(int argc, string argv[])
-{
-    
-    if (argc != 2)
-    {
-        printf("Usage: %s keyword\n",argv[0]);
-        return 1; //return error if command-line arguments !=2
-    }
-    /*else
-    {
-        int key = shift(argv[1][0]); //argv[1][0] is the first character of that string
-        printf("%i\n",key)
-    }*/
-    //Using a loop to iterate over each character of a string if I know its length
+{ 
+    //Declaring variables
     string keyword = argv[1];
     int key_len = strlen(keyword);
-    
-    for (int i = 0; i < key_len; i++)
+ 
+    if (argc != 2 || is_valid_key(keyword))
     {
-        keyword[i] = tolower(keyword[i]); //making keyword lowercase to work with easier since shift A/a = 0; Z/z = 25
-        //iterating through each character to ensure keyword is alphabetical
-        if (!isalpha(keyword[i]))
+        printf("Usage: %s keyword\n",argv[0]); 
+        return 1; //return error if command-line arguments !=2
+    }
+    else
+    {
+        for (i = 0; i < key_len; i++)
         {
-            printf("Usage: %s keyword\n",argv[0]);
-            return 1; //return error if characters aren't alphabetical
+            keyword[i] = tolower(keyword[i]); 
+            //making keyword lowercase to work with easier since shift A/a = 0; Z/z = 25
+            //iterating through each character to ensure keyword is alphabetical       
         }
     }
-    
+
+    //Using a loop to iterate over each character of a string if I know its length    
     string plaintext = get_string("plaintext: ");
     int plaintext_length = strlen(plaintext); 
-
+    
     //Iterate through plaintext characters "hello" plaintext[i] and encrypt plaintext[j] with key_values keyword[m]
     //Plaintext characters "Hello World!" -- keyword is lowercase characters --> need to set keyword to alphabetical index (a = 0 to z = 25)
     //Convert plaintext to ASCII (handling upper and lowercase) and shift by keyword[m] values
     //Convert encrypted message in ASCHII back to char when printing 
-    
     printf("ciphertext: ");
     for (int i = 0, j = 0; i < plaintext_length; i++)
     {
@@ -95,7 +89,21 @@ int main(int argc, string argv[])
     return 0;
 }
 
-    
+bool is_valid_keyword(string keyword)
+{
+    for (int i = 0; i < key_len; i++)
+    {
+        if (!isalpha(keyword[i]))
+        {
+            printf("Usage: %s keyword\n",argv[0]);
+            return false; //return error if characters aren't alphabetical
+        }
+        else
+        {
+            return true;
+           
+        }
+}
 
     
 
