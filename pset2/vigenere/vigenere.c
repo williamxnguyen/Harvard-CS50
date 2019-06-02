@@ -24,20 +24,21 @@ One difference between Caesar’s and Vigenère’s ciphers is that the key for 
 
 bool is_valid_keyword(string keyword);
 
+
 int main(int argc, string argv[])
 { 
     //Declaring variables
     string keyword = argv[1];
     int key_len = strlen(keyword);
- 
-    if (argc != 2 || is_valid_key(keyword))
+    
+    if (argc != 2 || !is_valid_keyword(keyword)) //not valid
     {
         printf("Usage: %s keyword\n",argv[0]); 
         return 1; //return error if command-line arguments !=2
     }
     else
     {
-        for (i = 0; i < key_len; i++)
+        for (int i = 0; i < key_len; i++)
         {
             keyword[i] = tolower(keyword[i]); 
             //making keyword lowercase to work with easier since shift A/a = 0; Z/z = 25
@@ -95,23 +96,18 @@ int main(int argc, string argv[])
 
 bool is_valid_keyword(string keyword)
 {
+    //Declaring variables
+    int key_len = strlen(keyword);
+    
     for (int i = 0; i < key_len; i++)
     {
         if (!isalpha(keyword[i]))
         {
-            printf("Usage: %s keyword\n",argv[0]);
             return false; //return error if characters aren't alphabetical
         }
-        else
-        {
-            return true;
-           
-        }
+    }
+    return true;
 }
 
-    
 
-    
-
-
-
+  

@@ -194,7 +194,7 @@ Looking through algorithms like bubble sort, insertion sort, and selection sort.
         - Repeat until no unsorted elements remain. 
         - Search unsorted part of the data to find smallest value. 
         - Swap smallest found value with first element of the unsorted part. 
-- **Worst-case scenario:** We have to iterate over each of the n elements of the array (to find smallest unsorted element) and must repeat process n times, since only one element gets sorted on each pass. 
+- **Worst-case scenario:** We have to iterate over each of the n elements of the array (to find smallest unsorted element) and must repeat process n times, since only one element gets sorted on each pass. O(n^2)
 - **Best-case scenario:** Exactly the same! There's no way to guarantee array is sorted until we go through this process for all elements. 
 
     
