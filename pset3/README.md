@@ -436,7 +436,9 @@ int main(void)
     int y = 2;
 
     printf("x is %i, y is %i\n", x, y);
-    swap(&x, &y);
+    
+    swap(&x, &y); //typing in ampersand to get address, since swap functions are expecting 2 addresses/pointers NOT VALUES. 
+    
     printf("x is %i, y is %i\n", x, y);
 }
 
@@ -454,17 +456,79 @@ void swap(int *a, int *b)
 **NOTE**:
 - When using `*a` without mentioning data type, a star and variable name -- that star is **deference operator** where it will go to that address of a and get the value. 
 - `int *a` means get the address of a, but `*a` means go to the address in memory and get me that value
+- **The ampersand means what is the address of a variable, the star is the opposite -- when having the address, go to that address and get its value.  **
 
 
 - **The address of `x` and `y` are passed in from `main` to `swap`, and using `*a` syntax to _follow (or deference) a pointer and get the value stored there_. 
         - Saving value to `tmp`, and then taking value at `b` and store that as _value_ of `a`. 
-
-## Memory Layout
-
-
-
+        - swap(&x,&y) stores the memory addresses (hexadecimals) of x and y into a,b arguments since swap function expects 2 pointers (int *a,*b)
+        - Going into swap function, *a and *b (deference operators) GOES  TO THE address to obtain values
+        - **By passing the addresses of `x` and `y` from `main` to `swap`, we could actually change the values of `x` and `y`**
 
 
+Looking at buggy code:
+
+```c
+int main(void)
+{
+    int *x; //Declares 2 pointers (address of an int) and allocate memory for integer x but not y. So storing 13 into `*y` leads to segmentation faults. 
+    
+    int *y;
+
+    x = malloc(sizeof(int));
+
+    *x = 42; //Go to that memory address, and put 42 there. 
+    *y = 13; //Address of y has NOT been allocated. 
+
+    y = x; //If I set y to be same as x, pointing to same address, I can store value 13 to that location. 
+
+    *y = 13;
+}
+```
+- Code allocates 2 pointers, which can point to address of integers (int *x, *y) however, you're in pointing anything initially. 
+- x = malloc(sizeof(int)); sets x to point to it, thus deference operator *x = 42 (doing a dereference on x stores x at address)
+
+## Structs
+- We can create variables of our own type with a concept called structs.
+- For example, if we wanted to store both names and dorms of individual students, we might have arrays for each:
+```c
+#include <cs50.h>
+#include <stdio.h>
+
+int main(void)
+{
+    // Space for students
+    int enrollment = get_int("Enrollment: ");
+    string names[enrollment]; //array of strings
+    string dorms[enrollment];
+
+    // Prompt for students' names and dorms
+    for (int i = 0; i < enrollment; i++)
+    {
+        names[i] = get_string("Name: ");
+        dorms[i] = get_string("Dorm: ");
+    }
+
+    // Print students' names and dorms
+    for (int i = 0; i < enrollment; i++)
+    {
+        printf("%s is in %s.\n", names[i], dorms[i]);
+    }
+}
+
+```
+
+
+But we might want to start having other pieces of data, and we have to make sure that all the arrays are the right length, and have the data for the same person at the same index. and so on. Instead, we can use structs, with a struct.h file containing:
+
+```c
+typedef struct
+{
+    char *name;
+    char *dorm;
+}
+student;
+```
 
 
 
