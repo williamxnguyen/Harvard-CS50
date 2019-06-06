@@ -149,6 +149,12 @@ bool compare_strings(char *a, char *b)
     return true;
 }
 ```
+## Fixing Errors
+
+**Note:** `get_string` is supposed to return address to the first byte of a string, but sometimes it may return `NULL` i.e. an invalid address that indicates something went wrong. 
+- `char *a` is a string, but more precisely it is the address of the first byte of the string. 
+
+- If something goes wrong when using `get_string` to return, it will return NULL or 0 (special address) where (address = 0) -- invalid address.
 
 It turns out there's a library function in `string.h` written by others called `strcmp` which compares for us... to make this string better:
 ```c
@@ -160,10 +166,25 @@ int main(void)
 {
     // Get two strings
     char *s = get_string("s: ");
+    
+    if (s == NULL) 
+    // OR if (!s) {return 1}
+    //If s is a valid address, but !s meaning NULL, return 1. Makes it more succinct. //Think of 0 as an invalid address not true or false. 
+    
+    {
+        return 1; //something went wrong
+    }
+    
     char *t = get_string("t: ");
+    if (t == NULL)
+    {
+        return 1; //avoiding SEGMENTATION FAULT
+    }
 
     // Compare strings for equality
-    if (strcmp(s, t) == 0)
+    if (strcmp(s, t) == 0) 
+    //It is weird, it is opposite. strcmp does not return true or false. It returns 0 when strings are equal. Returns a positive value if s<t or negative value if s>t. It compares ASCII value
+    //The return value for `strcmp` will be 0 if strings are equal. 
     {
         printf("same\n");
     }
@@ -171,13 +192,115 @@ int main(void)
     {
         printf("different\n");
     }
+    return 0; //If you dont return anything in main, it will secretly return int 0 
 }
 ```
-    - The return value for `strcmp` will be 0 if strings are equal. 
-    
-**Note:** `get_string` is supposed to return address to the first byte of a string, but sometimes it may return `NULL` i.e. an invalid address that indicates something went wrong. 
+## Segmentation Faults
+This means you _touched memory, you should not have_ or just **memory-related problems.**
+- For example, if `get_string` doesn't return a valid address, we have to return an exit code of 1 to indicate some error has incurred i.e. _segmentation fault_, which means we tried to access memory we aren't able to (such as at the `NULL` address). 
 
-    
+Using 
+```c
+if (char *s == NULL)
+{
+    return 1;
+}
+```
+will warn you of the problem. Add this so your program doesn't crash or segfault. 
+
+Looking at another piece of code to copy a string:
+```c
+#include <cs50.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    // Get a string
+    string s = get_string("s: ");
+
+    // Copy string's address
+    string t = s; //Put memory address of 's' into 't'
+    //
+
+    // Capitalize first letter in string
+    if (strlen(t) > 0)
+    {
+        t[0] = toupper(t[0]); //Go to 0th character of t, change t. However, 's' is pointing to Brian so 's' is changed as well. 
+    }
+
+    // Print string twice
+    printf("s: %s\n", s);
+    printf("t: %s\n", t);
+}
+```
+- Getting a string `s` and copying value of `s` into `t` then capitalizing first letter in `t`. 
+        - However, I see both `s` and `t` are capitalized. 
+        - Since, I set `s` and `t` to same values, they're actually pointers to the same character, so we capitalized the same character. 
+        - 
+        
+![](https://cs50.harvard.edu/college/2018/fall/weeks/3/notes/pointers.png)
+  
+## Fixing this Problem 
+Create the same string in a new chunk of memory i.e. get a bunch of memory then copy every character into this empty memory space. To actually make a copy of a string:
+
+```c
+#include <cs50.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    // Get a string
+    char *s = get_string("s: ");
+    if (!s)
+    {
+        return 1;
+    }
+
+    // Allocate memory for another string
+    char *t = malloc((strlen(s) + 1) * sizeof(char));
+    if (!t)
+    {
+        return 1;
+    }
+
+    // Copy string into memory
+    for (int i = 0, n = strlen(s); i <= n; i++)
+    {
+        t[i] = s[i];
+    }
+
+    // Capitalize first letter in copy
+    if (strlen(t) > 0)
+    {
+        t[0] = toupper(t[0]);
+    }
+
+    // Print strings
+    printf("s: %s\n", s);
+    printf("t: %s\n", t);
+
+    // Free memory
+    free(t);
+    return 0;
+}
+```
+- Creating a new variable `t` of type `char *` with `char *t`. 
+        - Want to point to a new chunk of memory that's large enough to store copy of stirng. 
+        - With `malloc`, I can allocate some bytes of memory (not already used to store values), and pass in the number of bytes I'd like. 
+                - Knowing the length of 's', I add 1 to that for the terminating null character, and multiply that by `sizeof(char)` (which gets us the number of bytes for each character) to be sure we have enough memory. 
+                - `char *t = malloc(strlen(s)+1)*sizeof(char);
+
+- Then, copying each character one at a time using array loops, I can now capitlize just the first letter of `t` using `i<=n` to go up one past `n` to ensure copying the terminating null character. 
+        - Can use `strcpy` library function to copy a string without going through all this hassle but going through this code to demonstrate that you can't simply copy a string into another string and then do some operations to this new variable that stored the copy string. WHY? Because they're pointing to the same memory address!!
+
+- Finally, call `free(t)` to tell computer that those bytes are no longer needed and useful and thus, those bytes in memory can be reused again. 
+
+
+
     
     
     
