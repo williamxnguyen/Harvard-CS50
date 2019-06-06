@@ -373,8 +373,93 @@ int main(void)
     
 ## Memory
 
+To tie this all together, recall that we have physical chips of RAM in our computers, that store all the bytes we have. And each byte has an address. We can see this with below code:
+
+```c
+#include <cs50.h>
+#include <stdio.h>
+
+int main(void)
+{
+    // Get two strings
+    char *s = get_string("s: ");
+    char *t = get_string("t: ");
+
+    // Print strings' addresses (the pointer)
+    printf("s: %p\n", s);
+    printf("t: %p\n", t);
+}
+```
+
+- Here, we tell `printf  to treat `s` and `t` as pointers with `%p`, so we see addresses like `0x2331010` and `0x2331050.`
+- Like binary and decimal, hexadecimals is a way to represent numbers and it has 16 possible values per digit (0-9 & A-F) -- it just happens **the addresses for `s` and `t` had no alphabetical characters. 
+        - And a value in hexadecimal will conventially start with `0x` to indicate that.
+        - Think of the **pointer output (addresses) as the numeric address in hexadecimal**
+        
+Let's say I want to swap values of 2 integers:
+```c
+#include <stdio.h>
+
+void swap(int a, int b);
+
+int main(void)
+{
+    int x = 1;
+    int y = 2;
+
+    printf("x is %i, y is %i\n", x, y);
+    swap(x, y);
+    printf("x is %i, y is %i\n", x, y);
+}
+
+void swap(int a, int b)
+{
+    int tmp = a;
+    a = b;
+    b = tmp;
+}
+```
+- There are no changes and NO swaps
+        - It turns out `swap` function gets its own variables. When `a` and `b` are passed in, that are copies of `x` and `y` and so changing those values don't change `x` and `y` in the main function. 
+        - **Bug: Passing in x and y in main, but a and b are copies of x and y since it does not change**
+        - **Solution: Using ampersand to provide a map to the values so it can be changed.**
+        
+- By passing in address of `x` and `y`, the `swap` function can actually work:
+```c
+#include <stdio.h>
+
+void swap(int *a, int *b);
+
+int main(void)
+{
+    int x = 1;
+    int y = 2;
+
+    printf("x is %i, y is %i\n", x, y);
+    swap(&x, &y);
+    printf("x is %i, y is %i\n", x, y);
+}
+
+void swap(int *a, int *b) 
+//speciying star in an argument to a function: you're expecting address of an int.
+//2 pointers, 2 addresses of integers. 
+
+{
+    int tmp = *a; //You are storing addresses of a into tmp, BUT I WANT THE VALUES ( I DONT CARE ABOUT MEMORY).
+    //*a gets values
+    *a = *b; //
+    *b = tmp;
+}
+```
+**NOTE**:
+- When using `*a` without mentioning data type, a star and variable name -- that star is **deference operator** where it will go to that address of a and get the value. 
+- `int *a` means get the address of a, but `*a` means go to the address in memory and get me that value
 
 
+- **The address of `x` and `y` are passed in from `main` to `swap`, and using `*a` syntax to _follow (or deference) a pointer and get the value stored there_. 
+        - Saving value to `tmp`, and then taking value at `b` and store that as _value_ of `a`. 
+
+## Memory Layout
 
 
 
