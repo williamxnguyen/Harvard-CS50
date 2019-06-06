@@ -262,6 +262,10 @@ int main(void)
 
     // Allocate memory for another string
     char *t = malloc((strlen(s) + 1) * sizeof(char));
+    //char *t, tells comuter to give me chunk of memory in which I can store address of a character -- give me space for a pointer
+    //malloc = memory allocation (give empty memory space to be filled)
+    //How much memory? How many bytes? 
+        
     if (!t)
     {
         return 1;
@@ -284,7 +288,7 @@ int main(void)
     printf("t: %s\n", t);
 
     // Free memory
-    free(t);
+    free(t); //pass in variable, pointer that's storing the address of the chunk of memory that has been allocated
     return 0;
 }
 ```
@@ -298,9 +302,54 @@ int main(void)
         - Can use `strcpy` library function to copy a string without going through all this hassle but going through this code to demonstrate that you can't simply copy a string into another string and then do some operations to this new variable that stored the copy string. WHY? Because they're pointing to the same memory address!!
 
 - Finally, call `free(t)` to tell computer that those bytes are no longer needed and useful and thus, those bytes in memory can be reused again. 
+        - **Why do this?**
+        - A _memory leak_ happens when we allocate more and more memory for our program to use, but we don't free that memory. Thus, gets slower and slower. 
+        - **Malloc is opposite of free, use together.**
 
+## Scan-Formatted Text
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    int x;
+    printf("x: ");
+    scanf("%i", &x); //INPUT THIS
+    //&x is the special way of saying get the ADDRESS of x, so I can store the input into address memory.
+    printf("x: %i\n", x);
+}
+```
+`scanf` is a function that gets input from the user, according to a particular format. We pass in %i to indicate that we’re looking for an integer, and we use &x to get the address of x, so scanf can put the value into the right place in memory.
 
+_However, if I try this with a string..._:
+```c
+//GETTING A STRING FROM USER INSTEAD OF INT CAN CREATE PROBLEMS
+
+#include <stdio.h>
+
+int main(void)
+{
+    char *s = NULL; //gives me space for the address of a character -- initialize to avoid segfaults
+    printf("s: ");
+    scanf("%s", s); //no need to use &s (scanf needs to be told where chunk of memory is to store inputted values)
+    //however, s is already an address. S already has address
+    
+    //Recall, int x, the declaration of x variable (just an int). &x gets the address of that int. 
+    //However, char *s is saying from initialization, get me the address of a char. 
+    
+    printf("s: %s\n", s);
+}
+```
+    - Output was NULL
+    - Since we didn't allocate memory for the actual bytes of the string, `scanf` had nowhere to store the input.
+    - **NEED TO ALLOCATE SOME NUMBER OF BYTES AS AN ARRAY OF CHARACTERS.**
+    - char *s is providing space of 1 byte (1 character), which is the size of a pointer.
+            - There is not enough room to store a whole string into char *s. 
+            - We didn't allocate enough space. 
+            - We only allocated space for the address. 
+            
+            
+    
     
     
     
