@@ -322,6 +322,7 @@ int main(void)
 `scanf` is a function that gets input from the user, according to a particular format. We pass in %i to indicate that we’re looking for an integer, and we use &x to get the address of x, so scanf can put the value into the right place in memory.
 
 _However, if I try this with a string..._:
+
 ```c
 //GETTING A STRING FROM USER INSTEAD OF INT CAN CREATE PROBLEMS
 
@@ -340,19 +341,67 @@ int main(void)
     printf("s: %s\n", s);
 }
 ```
-    - Output was NULL
-    - Since we didn't allocate memory for the actual bytes of the string, `scanf` had nowhere to store the input.
-    - **NEED TO ALLOCATE SOME NUMBER OF BYTES AS AN ARRAY OF CHARACTERS.**
-    - char *s is providing space of 1 byte (1 character), which is the size of a pointer.
-            - There is not enough room to store a whole string into char *s. 
-            - We didn't allocate enough space. 
-            - We only allocated space for the address. 
-            
-            
+
+- Output was NULL
+- Since we didn't allocate memory for the actual bytes of the string, `scanf` had nowhere to store the input.
+- **NEED TO ALLOCATE SOME NUMBER OF BYTES AS AN ARRAY OF CHARACTERS.**
+- char *s is providing space of 1 byte (1 character), which is the size of a pointer.
+        - There is not enough room to store a whole string into char *s. 
+        - We didn't allocate enough space. 
+        - We only allocated space for the address. 
+
+To allocate space: 
+```c
+#include <stdio.h>
+int main(void)
+{
+    //A string is just an array of characters. 
+    //Create a string, but give me a chunk of memory.
+    //I don't want the address of an character, I want the actual characters themselves. 
     
+    char s[6]; //Space for 6 characters
+    printf("s: ");
+    printf("%s",s); //s is equivalent of being an address of a string
+
+}
+```
+
+- Now I have 6 bytes in memory into which I can store input. 
+- Notice that I can pass in `s` as an address, since **arrays can be treated like pointers to the first element in the array.**
+- However, if I was to type in a longer string exceeding the memory I allocated, I evetually get a **_segmentation fault_** where I tried to access a segment of memory I couldn't or shouldn't. 
+        - Telling computer to put user input at the memory location of s --in the array of characters
     
-    
-    
+## Memory
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     
     
